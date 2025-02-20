@@ -57,17 +57,55 @@ class GUI:
         self.frame.pack()
         
         
-        self.playbutton = Button (self.frame, image=self.play_button_bild, borderwidth =0)
+        self.playbutton = Button (self.frame, image=self.play_button_bild, borderwidth =0, command = play_music)
         self.playbutton.grid(row=0, column=1, padx=7, pady= 10)
         
-        self.pausebutton = Button (self.frame, image=self.pause_button_bild, borderwidth =0)
+        self.pausebutton = Button (self.frame, image=self.pause_button_bild, borderwidth =0, command = pause_music)
         self.pausebutton.grid(row=0, column=2, padx=7, pady= 10)
         
-        self.backbutton = Button (self.frame, image=self.back_button_bild, borderwidth =0)
+        self.backbutton = Button (self.frame, image=self.back_button_bild, borderwidth =0, command = back_music)
         self.backbutton.grid(row=0, column=3, padx=7, pady= 10)
         
-        self.skipbutton = Button (self.frame, image=self.next_button_bild, borderwidth =0)
+        self.skipbutton = Button (self.frame, image=self.next_button_bild, borderwidth =0, command = skip_music )
         self.skipbutton.grid(row=0, column=4, padx=7, pady= 10)
+
+
+        def play_music():
+            global aktueller_song, paused
+            if not paused:
+                pygame.mixer.music.load(os.path.join(self.musicplayer.directory, self.aktueller_song))
+                pygame.mixer.music.play()
+            else:
+                pygame.mixer.music.unpause()
+                paused = False
+
+        def pause_music():
+            global paused
+            pygame.mixer.music.pause()
+            paused = True
+
+
+        def skip_music():
+            global aktueller_song
+            try:
+                self.songliste.selection_clear(0, END)
+                self.songliste.selection_set(self.songs.index(self.aktueller_song) + 1)
+                self.aktueller_song = self.songs[self.songliste.curselection()[0]]
+            except:
+                pass
+
+
+        def back_music():
+            global aktueller_song, paused
+            try:
+                self.songliste.select_clear(0, END)
+                self.songliste.select_set(self.songs.index(self.aktueller_song) -1)
+                self.current_song = self.songs[self.songliste.curselection()[0]]
+                play_music()
+            except:
+                pass
+
+
 
 
         
@@ -76,7 +114,7 @@ class GUI:
  
 
 
-        self.musicplayer.mainloop()
+            self.musicplayer.mainloop()
         
 
 if __name__ == "__main__":
