@@ -59,11 +59,11 @@ class GUI:
         self.next_button_bild = PhotoImage(file="skip.png")
 
         
-        button_size = (40, 40) 
-        self.play_button_bild = self.play_button_bild.subsample(int(self.play_button_bild.width() / button_size[0]), int(self.play_button_bild.height() / button_size[1]))
-        self.pause_button_bild = self.pause_button_bild.subsample(int(self.pause_button_bild.width() / button_size[0]), int(self.pause_button_bild.height() / button_size[1]))
-        self.back_button_bild = self.back_button_bild.subsample(int(self.back_button_bild.width() / button_size[0]), int(self.back_button_bild.height() / button_size[1]))
-        self.next_button_bild = self.next_button_bild.subsample(int(self.next_button_bild.width() / button_size[0]), int(self.next_button_bild.height() / button_size[1]))
+        button_groeße = (40, 40) 
+        self.play_button_bild = self.play_button_bild.subsample(int(self.play_button_bild.width() / button_groeße[0]), int(self.play_button_bild.height() / button_groeße[1]))
+        self.pause_button_bild = self.pause_button_bild.subsample(int(self.pause_button_bild.width() / button_groeße[0]), int(self.pause_button_bild.height() / button_groeße[1]))
+        self.back_button_bild = self.back_button_bild.subsample(int(self.back_button_bild.width() / button_groeße[0]), int(self.back_button_bild.height() / button_groeße[1]))
+        self.next_button_bild = self.next_button_bild.subsample(int(self.next_button_bild.width() / button_groeße[0]), int(self.next_button_bild.height() / button_groeße[1]))
         
         
         self.frame = Frame(self.musicplayer, bg="white")
