@@ -104,10 +104,16 @@ class GUI:
             try:
                 next_index = self.songs.index(self.aktueller_song) + 1
                 if next_index < len(self.songs):
+                    # Gehe zum nächsten Song
                     self.songliste.selection_clear(0, END)
                     self.songliste.selection_set(next_index)
                     self.aktueller_song = self.songs[next_index]
-                    self.play_music()
+                else:
+                    # Wenn das Ende der Playlist erreicht ist, springe zum ersten Song
+                    self.songliste.selection_clear(0, END)
+                    self.songliste.selection_set(0)
+                    self.aktueller_song = self.songs[0]
+                self.play_music()  # Spiele den ausgewählten Song ab
             except:
                 pass
 
@@ -116,10 +122,16 @@ class GUI:
             try:
                 prev_index = self.songs.index(self.aktueller_song) - 1
                 if prev_index >= 0:
+                    # Gehe zum vorherigen Song
                     self.songliste.selection_clear(0, END)
                     self.songliste.selection_set(prev_index)
                     self.aktueller_song = self.songs[prev_index]
-                    self.play_music()
+                else:
+                    # Wenn das Anfang der Playlist erreicht ist, springe zum letzten Song
+                    self.songliste.selection_clear(0, END)
+                    self.songliste.selection_set(len(self.songs) - 1)
+                    self.aktueller_song = self.songs[-1]
+                self.play_music()  # Spiele den ausgewählten Song ab
             except:
                 pass
 
@@ -132,12 +144,9 @@ class GUI:
             self.progress['maximum'] = total_time
             self.progress['value'] = current_time
 
-    
             self.time_label.config(text=f"{int(current_time // 60):02}:{int(current_time % 60):02} / {int(total_time // 60):02}:{int(total_time % 60):02}")
 
-        
             self.musicplayer.after(1000, self.update_zeit)
-
 
 
 if __name__ == "__main__":
