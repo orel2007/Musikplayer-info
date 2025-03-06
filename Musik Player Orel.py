@@ -4,6 +4,7 @@ import pygame
 import os
 from mutagen.mp3 import MP3
 
+
 class GUI:
     def __init__(self):
         self.musicplayer = Tk()
@@ -20,6 +21,7 @@ class GUI:
         self.aktueller_song = ""
         self.paused = False
 
+        
         def musik_laden():
             self.aktueller_song = ""
             self.songs.clear()
@@ -36,6 +38,7 @@ class GUI:
                     self.songliste.selection_set(0)
                     self.aktueller_song = self.songs[0]
 
+        
         self.organisieren = Menu(self.menue, tearoff=False)
         self.organisieren.add_command(label="Ordner auswählen", command=musik_laden)
         self.menue.add_cascade(label="Organisieren", menu=self.organisieren)
@@ -84,6 +87,7 @@ class GUI:
 
         self.musicplayer.mainloop()
 
+    
     def play_music(self):
         if self.aktueller_song:
             if not self.paused:
@@ -99,6 +103,7 @@ class GUI:
             pygame.mixer.music.pause()
             self.paused = True
 
+    
     def skip_music(self):
         if self.songs:
             try:
@@ -109,7 +114,7 @@ class GUI:
                     self.songliste.selection_set(next_index)
                     self.aktueller_song = self.songs[next_index]
                 else:
-               
+                    
                     self.songliste.selection_clear(0, END)
                     self.songliste.selection_set(0)
                     self.aktueller_song = self.songs[0]
@@ -117,12 +122,13 @@ class GUI:
             except:
                 pass
 
+    
     def back_music(self):
         if self.songs:
             try:
                 prev_index = self.songs.index(self.aktueller_song) - 1
                 if prev_index >= 0:
-                   
+                    
                     self.songliste.selection_clear(0, END)
                     self.songliste.selection_set(prev_index)
                     self.aktueller_song = self.songs[prev_index]
@@ -131,11 +137,13 @@ class GUI:
                     self.songliste.selection_clear(0, END)
                     self.songliste.selection_set(len(self.songs) - 1)
                     self.aktueller_song = self.songs[-1]
-                self.play_music() 
+                self.play_music()  
             except:
                 pass
 
+    
     def update_zeit(self):
+        
         if pygame.mixer.music.get_busy():
             current_time = pygame.mixer.music.get_pos() / 1000
             audio = MP3(self.aktueller_song)
@@ -143,10 +151,14 @@ class GUI:
 
             self.progress['maximum'] = total_time
             self.progress['value'] = current_time
+            
+            
 
             self.time_label.config(text=f"{int(current_time // 60):02}:{int(current_time % 60):02} / {int(total_time // 60):02}:{int(total_time % 60):02}")
 
+
             self.musicplayer.after(1000, self.update_zeit)
+
 
 
 if __name__ == "__main__":
