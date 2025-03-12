@@ -21,8 +21,12 @@ class GUI:
         self.songs = []
         self.aktueller_song = ""
         self.paused = False
-        self.playing = False 
-
+        self.playing = False
+        
+        self.lautstärke_label = Label(self.musicplayer, text ="Lautstärke", bg ="dark blue", fg = "white")
+        self.lautstärke_label.pack(pady=5)
+        self.lautstärke_bar = ttk.Scale(self.musicplayer, from=0, to=1, orient = HORIZONTAL, command = self.set_lautstärke)
+        
         
         
         def musik_laden():
@@ -166,7 +170,14 @@ class GUI:
 
             self.time_label.config(text=f"{int(current_time // 60):02}:{int(current_time % 60):02} / {int(total_time // 60):02}:{int(total_time % 60):02}")
 
-        self.musicplayer.after(1000, self.update_zeit)  
+        self.musicplayer.after(1000, self.update_zeit)
+    
+    def set_lautstärke (self, volume):
+    
+    
+        
+        
+        
         
 
 
