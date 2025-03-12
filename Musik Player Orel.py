@@ -5,6 +5,7 @@ import os
 from mutagen.mp3 import MP3
 
 
+
 class GUI:
     def __init__(self):
         self.musicplayer = Tk()
@@ -20,7 +21,9 @@ class GUI:
         self.songs = []
         self.aktueller_song = ""
         self.paused = False
+        self.playing = False 
 
+        
         
         def musik_laden():
             self.aktueller_song = ""
@@ -39,6 +42,7 @@ class GUI:
                     self.aktueller_song = self.songs[0]
 
         
+        
         self.organisieren = Menu(self.menue, tearoff=False)
         self.organisieren.add_command(label="Ordner auswählen", command=musik_laden)
         self.menue.add_cascade(label="Organisieren", menu=self.organisieren)
@@ -56,6 +60,7 @@ class GUI:
         self.time_label.pack(pady=5)
         
        
+        
         self.play_button_bild = PhotoImage(file="play.png")
         self.pause_button_bild = PhotoImage(file="pause.png")
         self.back_button_bild = PhotoImage(file="back.png")
@@ -88,21 +93,27 @@ class GUI:
         self.musicplayer.mainloop()
 
     
+    
     def play_music(self):
         if self.aktueller_song:
             if not self.paused:
                 pygame.mixer.music.load(self.aktueller_song)
                 pygame.mixer.music.play()
+                self.playing = True  
                 self.update_zeit() 
             else:
                 pygame.mixer.music.unpause()
                 self.paused = False
+                self.playing = True  
 
+    
     def pause_music(self):
         if self.aktueller_song:
             pygame.mixer.music.pause()
             self.paused = True
+            self.playing = False  
 
+    
     
     def skip_music(self):
         if self.songs:
@@ -123,6 +134,7 @@ class GUI:
                 pass
 
     
+    
     def back_music(self):
         if self.songs:
             try:
@@ -142,22 +154,20 @@ class GUI:
                 pass
 
     
+    
     def update_zeit(self):
-        
-        if pygame.mixer.music.get_busy():
+        if self.playing: 
             current_time = pygame.mixer.music.get_pos() / 1000
             audio = MP3(self.aktueller_song)
             total_time = audio.info.length
 
             self.progress['maximum'] = total_time
             self.progress['value'] = current_time
-            
-            
 
             self.time_label.config(text=f"{int(current_time // 60):02}:{int(current_time % 60):02} / {int(total_time // 60):02}:{int(total_time % 60):02}")
 
-
-            self.musicplayer.after(1000, self.update_zeit)
+        self.musicplayer.after(1000, self.update_zeit)  
+        
 
 
 
