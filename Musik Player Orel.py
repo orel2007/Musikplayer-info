@@ -1,14 +1,26 @@
 from tkinter import *
-from tkinter import filedialog, ttk
+from tkinter import filedialog, ttk, messagebox
 import pygame
 import os
 from mutagen.mp3 import MP3
+import json
 
 
 
 class GUI:
     def __init__(self):
         self.musicplayer = Tk()
+        self.musicplayer.withdraw()
+        self.zeig_login_fenster()
+        
+        
+    def zeig_login_fenster(self):
+        self.login_fenster = Toplevel()
+        self.login_fenster.title("Anmelden")
+        self.login_fenster.geometry("300x200")
+        
+        
+        
         self.musicplayer.title("Music Player")
         self.musicplayer.geometry("500x500")  
         self.musicplayer.configure(bg="dark blue") 
@@ -25,7 +37,11 @@ class GUI:
         
         self.lautstärke_label = Label(self.musicplayer, text ="Lautstärke", bg ="dark blue", fg = "white")
         self.lautstärke_label.pack(pady=5)
-        self.lautstärke_bar = ttk.Scale(self.musicplayer, from=0, to=1, orient = HORIZONTAL, command = self.set_lautstärke)
+        self.lautstärke_bar = ttk.Scale(self.musicplayer, from_=0, to=1, orient = HORIZONTAL, command = self.set_lautstärke)
+        self.lautstärke_bar.set(0.5)
+        self.lautstärke_bar.pack(pady=5)
+        
+        
         
         
         
@@ -171,16 +187,17 @@ class GUI:
             self.time_label.config(text=f"{int(current_time // 60):02}:{int(current_time % 60):02} / {int(total_time // 60):02}:{int(total_time % 60):02}")
 
         self.musicplayer.after(1000, self.update_zeit)
+        
+    
     
     def set_lautstärke (self, volume):
+            pygame.mixer.music.set_volume(float(volume))
     
     
+    
         
         
         
         
-
-
-
 if __name__ == "__main__":
     GUI()
